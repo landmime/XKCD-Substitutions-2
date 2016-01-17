@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "XKCD Substitutions 2",
-  "description": "XKCD Substitutions 2",
+  "description": "Replace words and phrases on websites you visit, using the substitution lists from XKCD comics.",
   "version": "0.1",
 
   "browser_action": {
