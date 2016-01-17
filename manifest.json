@@ -10,6 +10,10 @@
     "default_popup": "popup.html"
   },
 
+  "icons": {
+    "128": "icon 128x128.png"
+  },
+
   "background": {
     "scripts": [
         "Constants.js",
