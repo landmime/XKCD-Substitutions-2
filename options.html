@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>XKCD Substitutions 2</title>
+        <script type="text/javascript" src="Constants.js"></script>
+        <script type="text/javascript" src="Replacement.js"></script>
+        <script type="text/javascript" src="Settings.js"></script>
+    </head>
+    <body>
+        <div id="form">
+            <div>
+                <h2>Substitution style:</h2>
+                <select id="replacedStyle">
+                    <option value="none">None</option>
+                    <option value="underline">Underline</option>
+                    <option value="highlight">Highlight</option>
+                </select>
+            </div>
+            <div>
+                <h2>Substitutions:</h2>
+                <table id="replacements">
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input id="addReplacement" type="button" value="Add" /></td>
+                    </tr>
+                </table>
+            </div>
+                <h2>Blacklisted Domains:</h2>
+                <table id="blacklistedDomains">
+                    <tr>
+                        <th>Domain</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input id="addBlacklistedDomain" type="button" value="Add" /></td>
+                    </tr>
+                </table>
+            <div>
+            </div>
+            <div>
+                <h2>Substitution limit:</h2>
+                <input id="replacementLimit" type="input" />
+            </div>
+            <br />
+            <div>
+                <button id="save">Save</button>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <script src="options.js"></script>
+    </body>
+</html>

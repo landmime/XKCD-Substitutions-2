@@ -1,0 +1,45 @@
+{
+  "manifest_version": 2,
+
+  "name": "XKCD Substitutions 2",
+  "description": "XKCD Substitutions 2",
+  "version": "0.1",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": [
+        "Constants.js",
+        "background.js"
+    ]
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+
+      "js": [
+        "Constants.js",
+        "ElementDecorators.js",
+        "TextNode.js",
+        "Replacement.js",
+        "Settings.js",
+        "Replacer.js",
+        "content_script.js"]
+    }
+  ],
+
+  "options_page": "options.html",
+
+  "permissions": [
+    "activeTab",
+    "webNavigation",
+    "storage"
+  ]
+}
