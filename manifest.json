@@ -3,7 +3,7 @@
 
   "name": "XKCD Substitutions 2",
   "description": "Replace words and phrases on websites you visit, using the substitution lists from XKCD comics.",
-  "version": "0.11",
+  "version": "0.12",
 
   "browser_action": {
     "default_icon": "icon.png",

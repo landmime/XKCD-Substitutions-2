@@ -39,6 +39,13 @@ Replacer.prototype.maybeSplitAndStyleTextNode = function (node, replacement) {
         return null;
     }
 
+    // Don't process the same node more than once, to avoid infinite loops if one
+    // replacements 'to' text matches another (or the same) replacements 'from'
+    // pattern.
+    if (this.isTextNodeCreatedByReplacer(node)) {
+        return null;
+    }
+
     console.log('info: replacing "' + match + '" with "' + replacement.to + '"');
     var newNodes = TextNode.split(node, result.index, replacement.from.length, 'SPAN');
     if (!newNodes) {
@@ -59,6 +66,9 @@ Replacer.prototype.maybeSplitAndStyleTextNode = function (node, replacement) {
         this.decorator.decorate(styledNode);
     }
     styledNode.textContent = to;
+
+    // Mark the styled node so we can know not to try to reprocess it again later.
+    this.markNodeCreatedByReplacer(styledNode);
 
     return styledNode;
 }
@@ -141,3 +151,30 @@ Replacer.prototype.run = function (node) {
 
     return this.replacementCount;
 }
+
+// Mark's a node has having been created as the result of a replacement, by adding
+// a private CSS class name to it's list.  This should be called on the parent of
+// the created TextNode (e.g. the SPAN), and not the TextNode itself.
+Replacer.prototype.markNodeCreatedByReplacer = function(node) {
+    node.classList.add(Replacer.PROCESSED_NODE_CLASS_NAME);
+}
+
+// Returns true if the text node was created by the replacer as the result of a
+// replacement.
+Replacer.prototype.isTextNodeCreatedByReplacer = function(node) {
+    // We have to look at the parentNode since TextNodes do not have CSS styles.
+    var classList = node.parentNode.classList;
+    for (var i = 0; i < classList.length; i++) {
+        var className = classList[i];
+        if (className == Replacer.PROCESSED_NODE_CLASS_NAME) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// The CSS class name added to all node's whose text is replaced.  This is not used
+// for actual styling, but as a way to mark processed nodes so they can be identified
+// later.
+Replacer.PROCESSED_NODE_CLASS_NAME = 'XKCD_Substitutions_2_replaced';

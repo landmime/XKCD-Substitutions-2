@@ -42,11 +42,11 @@ function run() {
         // to apply replacements to it, just as if the user had navigated to a new
         // page.
         var observer = new MutationObserver(function(mutations) {
-             mutations.forEach(function(mutation) {
+            mutations.forEach(function(mutation) {
                 for (var i = 0; i < mutation.addedNodes.length; i++) {
                     replacer.run(mutation.addedNodes[i]);
                 }
-             });
+            });
 
             setBadge(replacer.replacementCount);
         });

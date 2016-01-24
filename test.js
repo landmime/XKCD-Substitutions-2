@@ -251,6 +251,8 @@ QUnit.test('Replacer.run zero length value', function(assert) {
     assert.equal(textNodeParent.childNodes[2].textContent, ' c');
 });
 
+// The Replacer has a limit on the number of replacements its object will make, mostly
+// to avoid hanging a page if a bug is encountered.
 QUnit.test('Replacer.run replacement limit', function(assert) {
     var textNodeParent = document.createElement('div');
     var textNode = document.createTextNode('a b b b');
@@ -277,4 +279,31 @@ QUnit.test('Replacer.run replacement limit', function(assert) {
 
     assert.equal(textNodeParent.childNodes[4].nodeType, NodeType.TEXT);
     assert.equal(textNodeParent.childNodes[4].textContent, ' b');
+});
+
+// A Replacer should only replace text in a node once.  So if a replacement's 'to'
+// text matches another (or its own) 'from' pattern, then only the first replacement
+// will be evaluated.
+QUnit.test('Replacer.run only process nodes once', function(assert) {
+    var textNodeParent = document.createElement('div');
+    var textNode = document.createTextNode('a');
+    textNodeParent.appendChild(textNode);
+
+    var replacements = [new Replacement('a', 'b'),
+                        new Replacement('b', 'a')];
+    var replacer = new Replacer(replacements, SettingsValue.REPLACED_STYLE_NONE, 100);
+
+    assert.equal(1, replacer.run(textNodeParent));
+
+    assert.equal(textNodeParent.childNodes[0].nodeType, NodeType.TEXT);
+    assert.equal(textNodeParent.childNodes[0].textContent, '');
+
+    assert.equal(textNodeParent.childNodes[1].nodeType, NodeType.ELEMENT);
+    assert.equal(textNodeParent.childNodes[1].nodeName, 'SPAN');
+    assert.equal(textNodeParent.childNodes[1].textContent, 'b');
+
+    assert.equal(textNodeParent.childNodes[2].nodeType, NodeType.TEXT);
+    assert.equal(textNodeParent.childNodes[2].textContent, '');
+
+    assert.equal(1, replacer.run(textNodeParent.childNodes[1]));
 });
