@@ -51,7 +51,7 @@ function run() {
             setBadge(replacer.replacementCount);
         });
 
-        observer.observe(document, {
+        observer.observe(document.body, {
             childList: true,
             subtree: true
         });

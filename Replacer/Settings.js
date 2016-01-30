@@ -1,4 +1,9 @@
-//  Create a Settings object with default values.
+/**
+ * Creates a Settings object with the default values.
+ *
+ * @class Settings
+ * @constructor
+ */
 var Settings = function() {
     this.blacklistedDomains = [
         'mail.google.com',
@@ -60,8 +65,14 @@ var Settings = function() {
     this.replacementLimit = 1000;
 }
 
-// Load Settings data from Chrome local storage, convert it into a Settings
-// object, then run a callback with the loaded object.
+/**
+ * Load Settings data from Chrome local storage, convert it into a Settings
+ * object, then run a callback with the loaded object.
+ *
+ * @method loadFromStorage
+ * @static
+ * @param onLoaded {function}
+ */
 Settings.loadFromStorage = function(onLoaded) {
     var settings = new Settings();
     chrome.storage.local.get(null, function(items) {
@@ -91,8 +102,13 @@ Settings.loadFromStorage = function(onLoaded) {
     });
 }
 
-// Convert the Settings object to a format accepted by Chrome, save it local
-// storage, then run a callback once the save is complete.
+/**
+ * Convert the Settings object to a format accepted by Chrome, save it local
+ * storage, then run a callback once the save is complete.
+ *
+ * @method saveToStorage
+ * @param onSaved {function}
+ */
 Settings.prototype.saveToStorage = function(onSaved) {
     var replacements = this.replacements.map(
         function(replacement, index, array) {

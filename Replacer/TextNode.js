@@ -1,17 +1,29 @@
+/**
+ * @class TextNode
+ * @static
+ */
 var TextNode = TextNode || {};
 
-// Split a single text node into three new nodes.
-//
-// The new left node will have a text type, and contain everything up until, but
-// not including, the start index.
-//
-// The new middle node will be created with the given elementType, and will
-// contain all of the text from the startIndex, to the startIndex + length.
-//
-// The new right node will contain everything after that.
-//
-// The return value is a three element array of the new nodes from left to
-// right, or null if the node could not be split for any reason.
+/**
+ * Split a single text node into three new nodes.
+ *
+ * The new left node will have a text type, and contain everything up until, but
+ * not including, the start index.
+ *
+ * The new middle node will be created with the given elementType, and will
+ * contain all of the text from the startIndex, to the startIndex + length.
+ *
+ * The new right node will contain everything after that.
+ *
+ * @method split
+ * @static
+ * @param textNode
+ * @param startIndex
+ * @param length
+ * @param elementType
+ * @return A three element array of the new nodes from left to right, or null if
+ * the node could not be split for any reason.
+ */
 TextNode.split = function(textNode, startIndex, length, elementType) {
     if (!textNode ||
         !textNode.parentNode ||

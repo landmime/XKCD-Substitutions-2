@@ -1,6 +1,18 @@
-// A Replacer is an object for modifying the DOM, by replacing one or more instances
-// of strings with new values.  The replaced strings can be styled according to some
-// predefined rules.
+/**
+ * @module Replacer
+ */
+
+/**
+ * A Replacer is an object for modifying the DOM, by replacing one or more instances
+ * of strings with new values.  The replaced strings can be styled according to some
+ * predefined rules.
+ *
+ * @class Replacer
+ * @param replacements {Array}
+ * @param replacedByStyle {String}
+ * @param replacementLimit {int}
+ * @constructor
+ */
 var Replacer = function(replacements, replacedStyle, replacementLimit) {
     this.replacements = replacements;
     this.replacedStyle = replacedStyle;
@@ -18,14 +30,20 @@ var Replacer = function(replacements, replacedStyle, replacementLimit) {
     this.replacementCount = 0;
 }
 
-// Check if the textNode contains replacable text.  If it does, then
-//
-// 1. Split the text into three new nodes, with the matched text in the middle.
-// 2. Replace the text in the middle node according to the Replacement rule.
-// 3. Style the middle node according to the settings,
-// 4. Return the new middle node.
-//
-// If the textNode does not contain replacable text, then null is returned.
+/**
+ * Check if the textNode contains replacable text.  If it does, then
+ *
+ * 1. Split the text into three new nodes, with the matched text in the middle.
+ * 2. Replace the text in the middle node according to the Replacement rule.
+ * 3. Style the middle node according to the settings,
+ *
+ * @method
+ * @private
+ * @param node {Element}
+ * @param replacement {Replacement}
+ *
+ * @return The new styled Element, or null if the node was not replaced.
+ */
 Replacer.prototype.maybeSplitAndStyleTextNode = function (node, replacement) {
     var result = replacement.pattern.exec(node.textContent);
     if (!result) {
@@ -73,8 +91,14 @@ Replacer.prototype.maybeSplitAndStyleTextNode = function (node, replacement) {
     return styledNode;
 }
 
-// Replace all text matches of the given replacement in an element node.  Return the
-// number of replacements that were made.
+/**
+ * Replace all text matches of the given replacement in an element node.
+ *
+ * @method
+ * @param textNode {Node}
+ * @param replacement {Replacement}
+ * @return The number of replacements that were made.
+ */
 Replacer.prototype.replaceAllInTextNode = function (textNode, replacement) {
     if (this.replacementLimit && this.replacementCount >= this.replacementLimit) {
         return 0;
@@ -94,8 +118,16 @@ Replacer.prototype.replaceAllInTextNode = function (textNode, replacement) {
     return (this.replacementCount - startingReplacementCount);
 }
 
-// Recursively replace all text matches of the given replacement in the element tree.
-// Returns the number of replacements that were made.
+/**
+ * Recursively replace all text matches of the given replacement in the element
+ * tree.
+ *
+ * @method
+ * @private
+ * @param node {Element}
+ * @param replacement {Replacement}
+ * @return The number of replacements that were made.
+ */
 Replacer.prototype.replaceAllInNodeTree = function (node, replacement) {
     var replacementCount = 0;
 
@@ -126,8 +158,13 @@ Replacer.prototype.replaceAllInNodeTree = function (node, replacement) {
 
 }
 
-// Run the replacement logic against all nodes in the tree.  Returns the number
-// of replacments that were made.
+/**
+ * Run the replacement logic against all nodes in the tree.
+ *
+ * @method
+ * @param node {Element} The root node to run the replacement logic against.
+ * @return The total number of replacements this Replacer has made.
+ */
 Replacer.prototype.run = function (node) {
     // Perform the text replacement on then entire document.
     // It is important that the replacement list is in the outer loop, i.e. we
