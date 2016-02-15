@@ -108,8 +108,8 @@ Replacer.prototype.replaceAllInTextNode = function (textNode, replacement) {
     var newNode = this.maybeSplitAndStyleTextNode(textNode, replacement);
 
     // Performing a replacment splits a single node into three new ones.  We need to
-    // recursively process the right siblings since a single text node could have
-    // contain more than one instance of replacable text.
+    // recursively process the right siblings since a single text node could contain
+    // more than one instance of replacable text.
     if (newNode) {
         this.replacementCount++;
         this.replaceAllInTextNode(newNode.nextSibling, replacement);
@@ -189,7 +189,7 @@ Replacer.prototype.run = function (node) {
     return this.replacementCount;
 }
 
-// Mark's a node has having been created as the result of a replacement, by adding
+// Marks a node has having been created as the result of a replacement, by adding
 // a private CSS class name to it's list.  This should be called on the parent of
 // the created TextNode (e.g. the SPAN), and not the TextNode itself.
 Replacer.prototype.markNodeCreatedByReplacer = function(node) {
