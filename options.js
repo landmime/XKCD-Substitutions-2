@@ -140,7 +140,7 @@ function addReplacementRow(fromValue, toValue) {
     removeCell.appendChild(removeButton);
 }
 
-// Add a new row witht the given domain value to the table of blacklisted domains.
+// Add a new row with the given domain value to the table of blacklisted domains.
 function addBlacklistedDomainRow(domain) {
     var table = getBlacklistedDomainsTable();
     var rowNumber = table.rows.length - 1;

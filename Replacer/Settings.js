@@ -57,7 +57,31 @@ var Settings = function() {
         new Replacement('horsepower', 'tons of horsemeat'),
 
         // ???
-        new Replacement('allegedly', 'kinda probably')
+        new Replacement('allegedly', 'kinda probably'),
+
+        // XKCD 1679
+        new Replacement('gaffe', 'magic spell'),
+        new Replacement('ancient', 'haunted'),
+        new Replacement('star-studded', 'blook-soaked'),
+        new Replacement('remains to be seen', 'will never be known'),
+        new Replacement('silver bullet', 'way to kill werewolves'),
+        new Replacement('subway system', 'tunnels I found'),
+        new Replacement('surprising', 'surprising (but not to me)'),
+        new Replacement('war of words', 'interplanetary war'),
+        new Replacement('tension', 'sexual tension'),
+        new Replacement('cautiously optimistic', 'delusional'),
+        new Replacement('doctor who', 'the big bang theory'),
+        new Replacement('win votes', 'find pokemon'),
+        new Replacement('behind the headline', 'beyond the grave'),
+        new Replacement('email', 'poem'),
+        new Replacement('facebook post', 'poem'),
+        new Replacement('tweet', 'poem'),
+        new Replacement('facebook ceo', 'this guy'),
+        new Replacement('latest', 'final'),
+        new Replacement('disrupt', 'destroy'),
+        new Replacement('meeting', 'menage a trois'),
+        new Replacement('scientists', 'Channing Tatum and his friends'),
+        new Replacement("you won't believe", "I'm really sad about")
     ];
 
     this.replacedStyle = SettingsValue.REPLACED_STYLE_NONE;
@@ -88,6 +112,8 @@ Settings.loadFromStorage = function(onLoaded) {
                                            replacementSetting.to);
                 }
             );
+
+            settings.addNewVersionReplacements();
         }
 
         if (items.blacklistedDomains) {
