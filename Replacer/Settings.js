@@ -112,8 +112,6 @@ Settings.loadFromStorage = function(onLoaded) {
                                            replacementSetting.to);
                 }
             );
-
-            settings.addNewVersionReplacements();
         }
 
         if (items.blacklistedDomains) {
