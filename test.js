@@ -1,3 +1,7 @@
+// A one second timeout in case the asynchronous Settings functions have an
+// error preventing their callbacks from ever being called.
+QUnit.config.testTimeout = 1000;
+
 // Trying to split a null textNode should return null.
 QUnit.test('TextNode.split null textNode', function(assert) {
     assert.notOk(TextNode.split(null, 1, 1, 'SPAN'));
@@ -306,4 +310,27 @@ QUnit.test('Replacer.run only process nodes once', function(assert) {
     assert.equal(textNodeParent.childNodes[2].textContent, '');
 
     assert.equal(1, replacer.run(textNodeParent.childNodes[1]));
+});
+
+// Sanity check on the loadFromStorage function.
+QUnit.test('Settings.loadFromStorage santiy check', function(assert) {
+    assert.expect(1);
+    var done = assert.async();
+
+    Settings.loadFromStorage(function(settings) {
+        assert.ok(settings instanceof Settings);
+        done();
+    });
+});
+
+// Sanity check on the saveToStorage method.
+QUnit.test('Settings.saveToStorage sanity check', function(assert) {
+    assert.expect(1);
+    var done = assert.async();
+
+    var settings = new Settings();
+    settings.saveToStorage(function() {
+        assert.ok(true);
+        done();
+    });
 });

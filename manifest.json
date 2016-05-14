@@ -2,8 +2,9 @@
   "manifest_version": 2,
 
   "name": "XKCD Substitutions 3",
+  "short_name": "XKCD Substitutions",
   "description": "Replace words and phrases on websites you visit, using the substitution lists from XKCD comics.",
-  "version": "0.15",
+  "version": "0.16",
 
   "browser_action": {
     "default_icon": "resources/icon.png",

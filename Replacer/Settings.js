@@ -86,7 +86,7 @@ var Settings = function() {
 
     this.replacedStyle = SettingsValue.REPLACED_STYLE_NONE;
 
-    this.replacementLimit = 1000;
+    this.replacementLimit = 10000;
 }
 
 /**
@@ -118,10 +118,6 @@ Settings.loadFromStorage = function(onLoaded) {
             settings.blacklistedDomains = items.blacklistedDomains;
         }
 
-        if (items.replacementLimit) {
-            settings.replacementLimit = items.replacementLimit;
-        }
-
         onLoaded(settings);
     });
 }
@@ -143,7 +139,6 @@ Settings.prototype.saveToStorage = function(onSaved) {
     chrome.storage.local.set({
         replacedStyle: this.replacedStyle,
         replacements: this.replacements,
-        blacklistedDomains: this.blacklistedDomains,
-        replacementLimit: parseInt(this.replacementLimit)
+        blacklistedDomains: this.blacklistedDomains
     }, onSaved);
 }

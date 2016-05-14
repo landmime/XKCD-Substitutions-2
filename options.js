@@ -13,11 +13,6 @@ function getBlacklistedDomainsTable() {
     return document.getElementById('blacklistedDomains');
 }
 
-// Returns the replacement limit input box element.
-function getReplacementLimitElement() {
-    return document.getElementById('replacementLimit');
-}
-
 // Returns the status div element.
 function getStatusElement() {
     return document.getElementById('status');
@@ -28,6 +23,11 @@ function getSaveButton() {
     return document.getElementById('save');
 }
 
+// Returns the "Load Default Settings" button for the settings form.
+function getLoadDefaultSettingsButton() {
+    return document.getElementById('loadDefaultSettings');
+}
+
 // Returns the add button for the replacement table.
 function getAddReplacementButton() {
     return document.getElementById('addReplacement');
@@ -36,6 +36,24 @@ function getAddReplacementButton() {
 // Returns the add button for the blacklisted domains table.
 function getAddBlacklistedDomainButton() {
     return document.getElementById('addBlacklistedDomain');
+}
+
+// Clears all the data rows from a settings table.
+function clearTable(table) {
+    // The first row is the header, and the last row is the "Add" button.  We
+    // want to remove everything in between.
+    while (table.rows.length > 2) {
+        table.deleteRow(1);
+    }
+}
+
+// Display a status message for a short time.
+function flashStatusMessage(message) {
+    var status = getStatusElement();
+    status.textContent = message;
+    setTimeout(function() {
+      status.textContent = '';
+    }, SaveStatus.MESSAGE_TIMEOUT_MS);
 }
 
 // Extract the settings data from options.html and save them to chrome storage.
@@ -66,37 +84,44 @@ function saveSettings() {
         settings.blacklistedDomains.push(blacklistedDomain);
     }
 
-    settings.replacementLimit = getReplacementLimitElement().value;
-
     settings.saveToStorage(function() {
         // Update status to let user know settings were saved.
-        var status = getStatusElement();
-        status.textContent = 'Settings saved.';
-        setTimeout(function() {
-          status.textContent = '';
-        }, SaveStatus.MESSAGE_TIMEOUT_MS);
+        flashStatusMessage('Current settings saved.');
     });
 }
 
-// Load the settings from chrome and render them in options.html
-function loadSettings() {
+// Load the default settings into the page.
+function loadDefaultSettings() {
+    var settings = new Settings();
+    loadSettings(settings);
+    flashStatusMessage('Default settings loaded.');
+}
+
+// Load the values from a settings object into the page.
+function loadSettings(settings) {
+    // Set the replacedStyle value based on the current settings.
+    var replacedStyle = settings.replacedStyle;
+    getReplacedStyleElement().value = replacedStyle;
+
+    // Add each current replacement as a row in the replacements table.
+    clearTable(getReplacementsTable());
+    for (var i = 0; i < settings.replacements.length; ++i) {
+        var replacement = settings.replacements[i];
+        addReplacementRow(replacement.from, replacement.to);
+    }
+
+    // Add each blacklisted domain as a row in the blacklisted domains table.
+    clearTable(getBlacklistedDomainsTable());
+    for (var i = 0; i < settings.blacklistedDomains.length; ++i) {
+        var blacklistedDomain = settings.blacklistedDomains[i];
+        addBlacklistedDomainRow(blacklistedDomain);
+    }
+}
+
+// Load the settings from chrome and render them into the page.
+function loadSettingsFromStorage() {
     Settings.loadFromStorage(function(settings) {
-        // Set the replacedStyle value based on the current settings.
-        var replacedStyle = settings.replacedStyle;
-        getReplacedStyleElement().value = replacedStyle;
-
-        // Add each current replacement as a row in the replacements table.
-        for (var i = 0; i < settings.replacements.length; ++i) {
-            var replacement = settings.replacements[i];
-            addReplacementRow(replacement.from, replacement.to);
-        }
-
-        for (var i = 0; i < settings.blacklistedDomains.length; ++i) {
-            var blacklistedDomain = settings.blacklistedDomains[i];
-            addBlacklistedDomainRow(blacklistedDomain);
-        }
-
-        getReplacementLimitElement().value = settings.replacementLimit;
+        loadSettings(settings);
     });
 }
 
@@ -168,15 +193,14 @@ function addBlacklistedDomainRow(domain) {
     removeCell.appendChild(removeButton);
 }
 
-
 // Add a blank row to the table of blacklisted domains.
 function addBlankBlacklistedDomainRow() {
     addBlacklistedDomainRow('');
 }
 
-document.addEventListener('DOMContentLoaded', loadSettings);
+document.addEventListener('DOMContentLoaded', loadSettingsFromStorage);
 
+getLoadDefaultSettingsButton().addEventListener('click', loadDefaultSettings);
 getSaveButton().addEventListener('click', saveSettings);
 getAddReplacementButton().addEventListener('click', addBlankReplacementRow);
-getAddBlacklistedDomainButton().addEventListener('click',
-                                                 addBlankBlacklistedDomainRow);
+getAddBlacklistedDomainButton().addEventListener('click', addBlankBlacklistedDomainRow);

@@ -5,8 +5,42 @@
         <script type="text/javascript" src="Replacer/Constants.js"></script>
         <script type="text/javascript" src="Replacer/Replacement.js"></script>
         <script type="text/javascript" src="Replacer/Settings.js"></script>
+        <style type="text/css">
+            #menuBar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background-color: white;
+                border-bottom: 1px black solid;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                display: block;
+            }
+
+            #menuBar li {
+                display: inline;
+            }
+
+            #menuBar li a {
+                display: block;
+            }
+
+            #form {
+                padding-top: 30px;
+            }
+        </style>
     </head>
     <body>
+        <div>
+            <ul id="menuBar">
+                <li><button id="loadDefaultSettings">Load Default Settings</button></li>
+                <li><button id="save">Save Current Settings</button></li>
+                <li id="status"></li>
+            </ul>
+        </div>
         <div id="form">
             <div>
                 <h2>Substitution style:</h2>
@@ -42,20 +76,8 @@
                         <td><input id="addBlacklistedDomain" type="button" value="Add" /></td>
                     </tr>
                 </table>
-            <div>
-            </div>
-            <div>
-                <h2>Substitution limit:</h2>
-                <input id="replacementLimit" type="input" />
-            </div>
-            <br />
-            <div>
-                <button id="save">Save</button>
             </div>
         </div>
-
-        <div id="status"></div>
-
         <script src="options.js"></script>
     </body>
 </html>
